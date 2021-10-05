@@ -1,0 +1,8 @@
+#nav-header {
+    background: url('../../nav.png');
+    opacity: 0.9;
+}
+
+li {
+    padding: 10px;
+}
