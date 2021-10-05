@@ -12,9 +12,9 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -34,5 +34,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@craco/craco": "^6.3.0",
+    "@heroicons/react": "^1.0.4",
+    "autoprefixer": "^9",
+    "postcss": "^7",
+    "stylelint-config-recommended": "^5.0.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   }
 }
