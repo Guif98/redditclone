@@ -4,7 +4,7 @@ import Section from './components/section/Section';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App overflow-hidden">
       <Navbar />
       <Section />
     </div>
