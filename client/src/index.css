@@ -6,3 +6,17 @@
 body {
     background: #030303;
 }
+
+@media (max-width: 411px)
+{
+    #createpost {
+        width: 200px;
+        overflow: hidden;
+    }
+
+    #formsearch {
+        width: 150px;
+        overflow: hidden;
+    }
+
+}

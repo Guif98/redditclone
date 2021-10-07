@@ -1,15 +1,30 @@
 import React, { Component } from "react";
+import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/outline';
 
 class Post extends Component {
     render() {
         return(
             <div className="bg-reddit_dark-background text-gray-100 my-5">
-                <div className="border border-reddit_border rounded-md bg-reddit_dark-brighter p-5">
-                    <h2 className="text-xl font-bold mb-3">
-                        For those who run after work, how do you get yourself in the mood when you're feeling tired or burnt out?
-                    </h2>
-                    <div>
-                        <p>
+                <div className="border border-reddit_border rounded-md bg-reddit_dark-brighter p-5 pt-2">
+                    <div className="grid grid-cols-12 col-start-1 col-end-13 md:col-start-2 md:col-end-12">
+                        <div className="hidden md:block">
+                            <button className="hover:text-yellow-600">
+                                <ArrowUpIcon className="w-8 h-8 col-span-1 py-1 "/>
+                            </button>
+                            <div className="font-bold">10.0k</div>
+                            <button className="hover:text-blue-400">
+                                <ArrowDownIcon className="w-8 h-8 col-span-1 py-1"/>
+                            </button>
+                        </div>
+                        <div className="col-span-11">
+                            <h5 className="text-reddit_text-gray text-sm">Postado por u/JoãoBobão há 4 horas</h5>
+                            <h2 className="text-xl font-bold mb-3 pt-2">
+                                For those who run after work, how do you get yourself in the mood when you're feeling tired or burnt out?
+                            </h2>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-12">
+                        <p className="col-start-1 col-end-13 md:col-start-2 md:col-end-12">
                             There is always that moment when I enter my apartment after a long day of work and the idea
                             of running when I could instead sit down on my couch with a beer is very difficult to
                             motivate for, even though I know in an hour I will be so much happier if I just finished a

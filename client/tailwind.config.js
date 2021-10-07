@@ -11,6 +11,9 @@ module.exports = {
         },
         reddit_border: {
           DEFAULT: '#343536',
+        },
+        reddit_text: {
+          gray: '#6e6f70',
         }
       },
     },
