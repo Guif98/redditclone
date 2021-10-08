@@ -12,6 +12,9 @@ module.exports = {
         reddit_border: {
           DEFAULT: '#343536',
         },
+        reddit_button: {
+          DEFAULT: 'rgba(0,121,211,1)',
+        },
         reddit_text: {
           gray: '#6e6f70',
         }

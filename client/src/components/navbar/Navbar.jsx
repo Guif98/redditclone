@@ -9,7 +9,6 @@ import DarkThemeButton from './DarkThemeButton';
 function dropDown() {
     const dropDownMenu = document.getElementById('dropdownmenu');
     dropDownMenu.classList.contains('hidden') ? dropDownMenu.classList.remove('hidden') : dropDownMenu.classList.add('hidden');
-    
 }
 
 class Navbar extends Component{
