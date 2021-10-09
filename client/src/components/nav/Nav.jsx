@@ -29,7 +29,7 @@ class Nav extends Component {
                 </article>
                 <footer className="container text-center align-text-bottom border-r border-l border-b border-reddit_border rounded-b-md p-5">
                     <a target="_blank" href="https://www.youtube.com/watch?v=jo8lQVtBTFk" rel="noopener noreferrer">
-                        <button class="bg-gray-300 hover:bg-gray-400 text-reddit_dark font-bold py-2 px-20 rounded-full">
+                        <button className="bg-gray-300 hover:bg-gray-400 text-reddit_dark font-bold py-2 px-20 rounded-full">
                             See all
                         </button>
                     </a>
