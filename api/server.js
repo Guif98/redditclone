@@ -10,12 +10,12 @@ import jwt from 'jsonwebtoken';
 const secret = 'secret123';
 
 const app = express();
-app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true,
+  origin: 'http://localhost:3000',
+  credentials: true,
 }));
 
 await mongoose.connect('mongodb://localhost:27017/reddit', {useNewUrlParser:true, useUnifiedTopology:true})
@@ -45,6 +45,31 @@ app.post('/register', (req, res) => {
         res.sendStatus(500);
     })
 });
+
+
+app.get('/user', (req, res) => {
+    const token = req.cookies.token;
+    if (token === undefined) {
+        let randomNumber=Math.random().toString();
+        randomNumber=randomNumber.substring(2,randomNumber.length);
+        res.cookie('token',randomNumber, { maxAge: 900000, httpOnly: true });
+        console.log('token created successfully');
+    } else {
+        // yes, token was already present 
+        console.log('token exists', token);
+      } 
+    const userInfo = jwt.verify(token, secret);
+    User.findById(userInfo.id)
+    .then(user => {
+        res.json(user.username)
+    })
+    .catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+})
+    
+
 
 
 app.listen(4000);
