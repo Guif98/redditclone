@@ -1,11 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import '../../index.css';
 import './navbar.css';
 import Logo from '../../logo.png';
-import { SearchIcon, ChatIcon, BellIcon, PlusIcon, UserIcon, ChevronDownIcon, LoginIcon, MoonIcon  } from '@heroicons/react/outline';
+import Avatar from '../../avatar.png';
+import { SearchIcon, ChatIcon, BellIcon, PlusIcon, UserIcon, ChevronDownIcon, LoginIcon, MoonIcon, LogoutIcon  } from '@heroicons/react/outline';
 import Button from "../button/Button";
 import DarkThemeButton from './DarkThemeButton';
 import AuthModalContext from "../../AuthModalContext";
+import axios from "axios";
+import UserContext from "../../UserContext";
 
 
 function dropDown() {
@@ -14,8 +17,24 @@ function dropDown() {
 }
 
 
+
 function Navbar(){
     const modalContext = useContext(AuthModalContext);
+    const user = useContext(UserContext);
+
+    useEffect(() => {
+        axios.get('http://localhost:4000/user', {withCredentials:true})
+        .then(response => user.setUser(response.data));
+      }, [])
+
+
+    function logout() {
+        axios.post('http://localhost:4000/logout', {}, {withCredentials:true})
+        .then(() => user.setUser({}));
+    }    
+
+    console.log(user.user)
+
     return(
         <nav id="mainnav" className="flex w-screen border z-50 border-reddit_border bg-reddit_dark p-2">
             <div className="mx-1 w-8 h-8">
@@ -39,7 +58,14 @@ function Navbar(){
                 <PlusIcon className="w-6 h-6 text-gray-400 mx-2 hover:opacity-75"/>        
             </button>
             <button onClick={dropDown} className="flex items-center mx-2 hover:opacity-75">
-                <UserIcon className="w-6 h-6 text-gray-400 "/>  
+                {user.user && (
+                    <div className="mx-1 w-8 h-8">
+                    <img src={Avatar} alt="logo" className="cursor-pointer"/>
+                    </div>
+                )}
+                {!user.user && (
+                    <UserIcon className="w-6 h-6 text-gray-400 "/>  
+                )}
                 <ChevronDownIcon className="w-5 h-5 text-gray-500"/>  
             </button>
             
@@ -48,10 +74,19 @@ function Navbar(){
                 <MoonIcon className="w-6 h-6 mr-2"/>Modo noturno
                 <DarkThemeButton />
                 </div>
-                <div onClick={() => {modalContext.setShow(true); modalContext.setType('login')}} className="flex w-60 py-2 px-3 hover:bg-gray-300 hover:text-black text-sm"> 
-                    <LoginIcon  className="w-6 h-6 mr-2" />
-                    Log In / Sign Up
-                </div>
+                {!user.user && (
+                    <div onClick={() => {modalContext.setShow(true); modalContext.setType('login')}} className="flex w-60 py-2 px-3 hover:bg-gray-300 hover:text-black text-sm"> 
+                        <LoginIcon  className="w-6 h-6 mr-2" />
+                            Log In / Sign Up
+                    </div>
+                )}
+                {user.user && (
+                    <div onClick={() => logout()} className="flex w-60 py-2 px-3 hover:bg-gray-300 hover:text-black text-sm"> 
+                        <LogoutIcon  className="w-6 h-6 mr-2" />
+                            Log Out
+                    </div>
+                )}
+                
             </div>
         </nav>
     )

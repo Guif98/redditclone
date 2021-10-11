@@ -68,6 +68,10 @@ app.get('/user', (req, res) => {
         res.sendStatus(500);
     })
 })
+
+app.post('/logout', (req, res ) => {
+    res.cookie('token', '').send();
+});
     
 
 

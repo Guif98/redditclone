@@ -5,13 +5,16 @@ import Side from '../../side.png';
 import axios from 'axios';
 import AuthModalContext from "../../AuthModalContext";
 import ClickOutHandler from 'react-clickout-handler';
+import UserContext from "../../UserContext";
 
 
 function AuthModal() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+
     const modalContext = useContext(AuthModalContext);
+    const user = useContext(UserContext);
     const visibleClass = modalContext.show ? 'block' : 'hidden'; 
 
 
@@ -19,6 +22,12 @@ function AuthModal() {
         e.preventDefault();
         const data = {username, password};
         axios.post('http://localhost:4000/register', data, {withCredentials:true})
+        .then(() => {
+            user.setUser({username})
+            setUsername('');
+            setPassword('');
+            modalContext.setShow(false);
+        });
     }
 
     return(
@@ -51,7 +60,7 @@ function AuthModal() {
                 <div className="my-10 w-60 ">
                     <small className="block">Forgot  <a className="text-blue-400" rel="noreferrer noopener" href="http://localhost:3000/">username</a> or <a className="text-blue-400" rel="noreferrer noopener" href="http://localhost:3000/">password</a>?</small>
                     {modalContext.type === 'register' && (
-                        <small>Already a redditor? <button onClick={() => modalContext.setType('login')} className="text-blue-400" rel="noreferrer noopener" href="http://localhost:3000/">Login</button></small>
+                        <small>Already a redditor? <button onClick={() => modalContext.setType('login')} className="text-blue-400">Login</button></small>
                     )}
                     {modalContext.type === 'login' && (
                         <small>First time on Reddit? <button onClick={() => modalContext.setType('register')} className="text-blue-400" rel="noreferrer noopener" href="http://localhost:3000/">SIGN UP</button></small>
