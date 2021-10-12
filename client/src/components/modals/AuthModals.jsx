@@ -30,6 +30,17 @@ function AuthModal() {
         });
     }
 
+    function login() {
+        const data = {username, password};
+        axios.post('http://localhost:4000/login', data, {withCredentials: true})
+        .then(() => {
+            user.setUser(username);
+            setUsername('');
+            setPassword('');
+            modalContext.setShow(false);
+        })
+    }
+
     return(
         <ClickOutHandler onClickOut={() => modalContext.setShow(false)}>
         <div className={"fixed invisible md:visible md:w-7/12 xl:w-6/12 h-5/6 mx-auto md:left-40 top-12 lg:right-64 z-20 grid grid-cols-12 rounded-md "+ visibleClass} style={{backgroundColor: 'rgba(0,0,0, .6)'}}>
@@ -51,7 +62,7 @@ function AuthModal() {
                     <Input className="my-2 w-full" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
                     <Input type="password" className="my-2 w-full" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
                     {modalContext.type === 'login' && (
-                        <Button onClick={() => {modalContext.setType('login'); modalContext.setShow(true)}} className="w-full py-2 bg-reddit_button text-white">Log In</Button>
+                        <Button onClick={() => {login(); modalContext.setType('login'); modalContext.setShow(true)}} className="w-full py-2 bg-reddit_button text-white">Log In</Button>
                     )}
                     {modalContext.type === 'register' && (
                         <Button onClick={e => {register(e); modalContext.setType('register'); modalContext.setShow(true)}} className="w-full py-2 bg-reddit_button text-white">Register</Button>

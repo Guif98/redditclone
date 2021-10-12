@@ -18,10 +18,15 @@ function App() {
     .then(response => setUser(response.data));
   }, [])
 
+  function logout() {
+    axios.post('http://localhost:4000/logout', {}, {withCredentials:true})
+    .then(() => user.setUser({}));
+  }    
+
   return (
     <AuthModalContext.Provider className="overflow-hidden App" value={{show:showAuthModal, setShow:setShowAuthModal, type:modalType, setType:setModalType}}>  
       <div className="overflow-hidden">
-        <UserContext.Provider value={{user, setUser}}>
+        <UserContext.Provider value={{user, setUser, logout}}>
           <Navbar />
           <Section />
           <AuthModal/>

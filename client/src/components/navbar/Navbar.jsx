@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import '../../index.css';
 import './navbar.css';
 import Logo from '../../logo.png';
@@ -9,32 +9,25 @@ import DarkThemeButton from './DarkThemeButton';
 import AuthModalContext from "../../AuthModalContext";
 import axios from "axios";
 import UserContext from "../../UserContext";
-
-
-function dropDown() {
-    const dropDownMenu = document.getElementById('dropdownmenu');
-    dropDownMenu.classList.contains('hidden') ? dropDownMenu.classList.remove('hidden') : dropDownMenu.classList.add('hidden');
-}
-
-
+import ClickOutHandler from 'react-clickout-handler';
 
 function Navbar(){
     const modalContext = useContext(AuthModalContext);
     const user = useContext(UserContext);
+    
+    const [dropdownmenu, setVisible] = useState('hidden');
 
     useEffect(() => {
         axios.get('http://localhost:4000/user', {withCredentials:true})
         .then(response => user.setUser(response.data));
-      }, [])
+      })
 
 
     function logout() {
         axios.post('http://localhost:4000/logout', {}, {withCredentials:true})
         .then(() => user.setUser({}));
     }    
-
-    console.log(user.user)
-
+    
     return(
         <nav id="mainnav" className="flex w-screen border z-50 border-reddit_border bg-reddit_dark p-2">
             <div className="mx-1 w-8 h-8">
@@ -57,37 +50,38 @@ function Navbar(){
             <button className="hidden md:block lg:block xl:block">
                 <PlusIcon className="w-6 h-6 text-gray-400 mx-2 hover:opacity-75"/>        
             </button>
-            <button onClick={dropDown} className="flex items-center mx-2 hover:opacity-75">
-                {user.user && (
-                    <div className="mx-1 w-8 h-8">
-                    <img src={Avatar} alt="logo" className="cursor-pointer"/>
+            <button onClick={() => setVisible('block')} className="flex items-center justify-around mx-2 hover:opacity-75">
+                {user.user.length > 0 && (
+                    <div className=" w-42 h-8 flex flex-row">
+                    <img src={Avatar} alt="logo" className="cursor-pointer w-8 h-8"/>
+                    <small className="text-white">{user.user}</small>
                     </div>
                 )}
-                {!user.user && (
+                {user.user.length === undefined && (
                     <UserIcon className="w-6 h-6 text-gray-400 "/>  
                 )}
-                <ChevronDownIcon className="w-5 h-5 text-gray-500"/>  
+                <ChevronDownIcon className="w-5 h-5 text-gray-500 ml-5"/>  
             </button>
-            
-            <div id="dropdownmenu" className="absolute hidden right-0 top-10 text-gray-300 bg-reddit_dark border border-gray-700 z-10 rounded-md overflow-hidden">
-                <div className="flex w-60 py-2 px-3 hover:bg-gray-300 hover:text-black text-sm"> 
-                <MoonIcon className="w-6 h-6 mr-2"/>Modo noturno
-                <DarkThemeButton />
+            <ClickOutHandler onClickOut={() => setVisible('hidden')}>
+                <div id="dropdownmenu" className={"absolute right-0 top-10 text-gray-300 bg-reddit_dark border border-gray-700 z-10 rounded-md overflow-hidden " + dropdownmenu}>
+                    <div className="flex w-60 py-2 px-3 hover:bg-gray-300 hover:text-black text-sm"> 
+                    <MoonIcon className="w-6 h-6 mr-2"/>Modo noturno
+                    <DarkThemeButton />
+                    </div>
+                    {user.user.length === undefined && (
+                        <div onClick={() => {modalContext.setShow(true); modalContext.setType('login')}} className="flex w-60 py-2 px-3 hover:bg-gray-300 hover:text-black text-sm"> 
+                            <LoginIcon  className="w-6 h-6 mr-2" />
+                                Log In / Sign Up
+                        </div>
+                    )}
+                    {user.user.length > 0 && (
+                        <div onClick={() => logout()} className="flex w-60 py-2 px-3 hover:bg-gray-300 hover:text-black text-sm"> 
+                            <LogoutIcon  className="w-6 h-6 mr-2" />
+                                Log Out
+                        </div>
+                    )}
                 </div>
-                {!user.user && (
-                    <div onClick={() => {modalContext.setShow(true); modalContext.setType('login')}} className="flex w-60 py-2 px-3 hover:bg-gray-300 hover:text-black text-sm"> 
-                        <LoginIcon  className="w-6 h-6 mr-2" />
-                            Log In / Sign Up
-                    </div>
-                )}
-                {user.user && (
-                    <div onClick={() => logout()} className="flex w-60 py-2 px-3 hover:bg-gray-300 hover:text-black text-sm"> 
-                        <LogoutIcon  className="w-6 h-6 mr-2" />
-                            Log Out
-                    </div>
-                )}
-                
-            </div>
+            </ClickOutHandler>
         </nav>
     )
 }

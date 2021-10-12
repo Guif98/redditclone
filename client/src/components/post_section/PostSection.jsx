@@ -14,7 +14,7 @@ class PostSection extends Component {
                     <PhotographIcon className="h-8 w-8 text-gray-400 hover:opacity-75"/>
                 </button>
                 <button className="mx-auto px-3">
-                    <ShareIcon className="h-8 w-8 hidden md:visible lg:visible xl:visible text-gray-400 hover:opacity-75"/>
+                    <ShareIcon className="h-8 w-8 hidden md:block lg:block xl:block text-gray-400 hover:opacity-75"/>
                 </button>
             </article>
         )
