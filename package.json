@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "nodemon": "^2.0.13"
+  },
+  "dependencies": {
+    "ansi-regex": "^5.0.1"
   }
 }
